@@ -1,0 +1,61 @@
+{% extends 'base.html'%}
+
+{%load static %}
+{%block content %}
+<style>
+    body{
+        overflow-x: hidden;
+    } 
+    .assistants {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        justify-items: center; 
+    }  
+
+    @media (max-width:768px) {
+        .images{
+            width:
+        }
+    }
+</style> 
+
+<!-- <div class="d-flex justify-content-center p-3">
+    {% for head in headmaster %}
+    <div class="card">
+        <h2 class="text-center"> Head Master </h2>
+        <div class="d-flex justify-content-center"><img src=" {{head.picture}} " alt="{{head.name}}" class="card-image"
+                style="width: 250px; height: 20vh;"></div>
+        <div class="card-body">
+            <h4 class="card-tittle"><b>Name:</b> {{head.name}} </h4>  
+            <p class="card-text"><b>PhoneNumber:</b> {{head.phoneNumber}}</p>
+            <a class="btn btn-primary">class</a>   
+        </div>  
+    </div>  
+    {%endfor%} 
+</div> -->
+
+<HR> 
+</HR>
+<h1 class="text-center">TEACHING ASSISTANCE</h1>
+<div class="assistants p-3">
+    {% for teacher in teachers %}
+    <div class="card shadow-sm" style="width: 18rem;"> 
+        {%if teacher.picture%}  
+        <div class="d-flex justify-content-center"><img src="{{teacher.picture.url}}" class="card-img-top images"
+                alt="{{teacher.name}}" style="width: 18rem; height: 40vh;"></div>
+        {%else%}    
+        <div class="d-flex justify-content-center"><img src="{% static 'images/'}" class="card-img-top"
+                alt="{{teacher.name}}" style="width: 18rem; height: 20vh; border-radius: 360px;"></div>
+        {%endif%}  
+        <div class="card-body"> 
+            <h5 class="card-title">Name: {{teacher.name}}</h5>
+            <p class="card-text"> <b>Phone Number:</b> 0{{teacher.phoneNumber}} </p>
+            <p class="card-text"> <b>Age:</b> {{teacher.age}} </p>   
+            <div class="d-flex justify-content-center"><a href="tel:+233{{teacher.phoneNumber}}" class="btn btn-primary">Call</a> </div>
+        </div>
+    </div>
+    {%endfor%}
+</div>
+
+{%endblock%}

@@ -1,0 +1,516 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<!-- Messages Section -->
+
+{% if messages %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        {% for message in messages %}
+        <div class="col-md-8">
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>{{ message }}</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+<style>
+    /* Full-Screen Swiper */
+    .swiper {
+        width: 100%;
+        height: 100vh;
+    }
+
+    /* Set Background Images with Gradient */
+    .slide1,
+    .slide2,
+    .slide3 {
+        position: relative;
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
+        object-fit: cover;
+    }
+
+    .slide1 {
+        background-image: linear-gradient(to right, rgba(255, 255, 255, 0.8) 20%, rgba(255, 255, 255, 0) 70%),
+        url("{% static 'images/HOD1.jpg' %}");
+    }
+
+    .slide2 {
+        background-image: linear-gradient(to right, rgba(255, 255, 255, 0.8) 20%, rgba(255, 255, 255, 0) 70%),
+        url("{% static 'images/HOD2.jpg' %}");
+    }
+
+    .slide3 {
+        background-image: linear-gradient(to left, rgba(255, 255, 255, 0.8) 20%, rgba(255, 255, 255, 0) 70%),
+        url("{% static 'images/HOD3.jpg' %}");
+    }
+
+    /* Overlay Content */
+    .overlay {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        color: black;
+        text-align: left;
+        padding-left: 10%;
+        z-index: 2;
+    }
+
+    /* Animations for Text */
+    .overlay h1,
+    .overlay p {
+        opacity: 0;
+        transform: translateY(50px);
+        animation: fadeSlideIn 1.5s ease-in-out forwards;
+    }
+
+    .overlay h1 {
+        font-size: 3rem;
+        animation-delay: 0.3s;
+    }
+
+    .overlay p {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+        animation-delay: 0.6s;
+    }
+
+    .overlay .btn {
+        padding: 10px 25px;
+        font-size: 1.2rem;
+        border-radius: 25px;
+        transition: transform 2s opacity 1s;
+        opacity: 0;
+        transform: translateY(50px);
+        animation: fadeUp 1.5s ease-in-out 0.9s forwards;
+
+    }
+
+    /* Button Hover Effect */
+    .overlay .btn:hover {
+        transform: scale(1.1);
+    }
+
+    /* About section */
+    .aboutsection {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 30px;
+        place-items: center;
+    }
+
+    .aboutinfo {
+        /* max-width: 20rem;  */
+        width: 40rem;
+        overflow-y: scroll;
+        background-color: black;
+        color: white;
+        padding: 20px;
+        border-radius: 20px;
+    }
+
+
+    .profImage {
+        width: 400px;
+        border-radius: 90px;
+        box-shadow: rgba(0, 0, 0, 0.3) 10px 31px 61px -36px;
+        cursor: pointer;
+    }
+
+
+    .profImage>img {
+        width: 400px;
+        border-radius: 50px;
+        transition: transform 1s;
+    }
+
+    .profImage>img:hover {
+        transform: scale(.5);
+    }
+
+    /* care about */
+    .stats-section {
+        background: url('{% static "images/bread-bg.jpg" %}') no-repeat center center/cover;
+        position: relative;
+        padding: 80px 0;
+        color: white;
+    } 
+
+    .stats-section .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 50, 100, 0.7);
+        /* Dark overlay */
+    }
+
+    .stat-item {
+        position: relative;
+        z-index: 2;
+        padding: 20px;
+    }
+
+    .stat-item i {
+        font-size: 40px;
+        margin-bottom: 10px;
+        color: #ffcc00;
+        /* Gold color */
+    }
+
+    .stat-item h3 {
+        font-size: 35px;
+        font-weight: bold;
+    }
+
+    .stat-item p {
+        font-size: 18px;
+    }
+
+
+    /* Fade & Slide-in Animation */
+    @keyframes fadeSlideIn {
+        0% {
+            opacity: 0;
+            transform: translateY(-100px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeUp {
+        0% {
+            opacity: 0;
+            transform: translateY(100px);
+        }
+
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 786px) {
+        .swiper {
+            width: 100%;
+            margin-top: 30px;
+            height: 60vh;
+        }
+
+
+        .aboutinfo {
+            width: 20rem;
+            height: 40vh; 
+            background-color: black;
+            color: white;
+            padding: 20px;
+            border-radius: 20px;
+            overflow-y: scroll;
+            font-size: 1.2rem;
+        }
+
+        .profImage {
+            width: 300px;
+            border-radius: 90px;
+            box-shadow: rgba(0, 0, 0, 0.3) 10px 31px 61px -36px;
+            cursor: pointer;
+        }
+
+        .profImage>img {
+            width: 300px;
+            border-radius: 50px;
+            transition: transform 1s;
+        }
+    }
+
+</style>
+
+<!-- Swiper Container -->
+
+<div class="swiper mySwiper mb-4">
+    <div class="swiper-wrapper">
+        <div class="swiper-slide slide1">
+            <div class="overlay">
+                <h1>Welcome Dear Students</h1>
+                <p>Track your academic progress with ease.</p>
+                <a href="{% url 'signup' %}" class="btn btn-primary">Let's Start</a>
+            </div>
+        </div>
+        <div class="swiper-slide slide2">
+            <div class="overlay">
+                <h1>Report any Issue</h1>
+                <p>Keep your records up to date.</p>
+                <a href="{% url 'absence' %}" class="btn btn-warning">Let's Start</a>
+            </div>
+        </div>
+        <div class="swiper-slide slide3">
+            <div class="overlay">
+                <h1>View Assessment Results</h1>
+                <p>Stay informed about your academic performance.</p>
+                <a href="{% url 'student_results' %}" class="btn btn-primary">Let's Start</a>
+            </div>
+        </div>
+    </div>
+    <!-- Pagination & Navigation -->
+    <div class="swiper-pagination"></div>
+</div>
+
+
+<div class="container mb-6">
+    <h3 class="text-center">About Me</h3>
+    {%for about in about %}
+    <div class="aboutsection p-3">
+        <div class="aboutprof">
+
+            <div class="aboutinfo">
+                {{about.About_Message}}
+                <br /><a href="{{about.readmore}}" class="btn btn-primary mt-3" target="_blank">Read More</a>
+            </div>    
+        </div>
+        
+        <div class="profImage shadow-lg">
+            <img src="{{about.myimage}}" alt="me" class="">
+        </div>
+    </div>
+    {%endfor%}
+</div>
+
+
+<!-- Care about  --> 
+<section class="stats-section mt-5" data-aos="fade-right" data-aos-duration="1200">
+    <div class="overlay"></div>
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3 col-6">
+                <div class="stat-item">
+                    <i class="fas fa-users"></i>
+                    <h3>5000+</h3>
+                    <p>Students Enrolled</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-item">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <h3>50+</h3>
+                    <p>Dedicated Faculty Members</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-item">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h3>1000+</h3>
+                    <p>Graduates Every Year</p>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-item">
+                    <i class="fas fa-award"></i>
+                    <h3>20+</h3>
+                    <p>Years of Academic Excellence</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% if request.user.is_authenticated %}
+<div class="container mt-5 ">
+    <h2 class="text-center"><u>What Prof Provide For You Digitally</u></h2>
+    <div class="row mt-4">
+        <div class="col-md-4 mb-3">
+            <div class="card border-0 shadow-sm rounded-3 bg-dark text-white">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Announcements</h5>
+                    <p class="card-text">Stay updated with the latest announcements and news from the ITB Assessment
+                        App.</p>
+                    <a href="{% url 'announcement' %}" class="btn btn-primary rounded-pill">View Announcements</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-3">
+            <div class="card border-0 shadow-sm rounded-3">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Report Issue</h5>
+                    <p class="card-text">Report your issue concising you and provide the necessary documentation easily.</p>
+                    <a href="{% url 'absence' %}" class="btn btn-primary rounded-pill">Report Issue</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-6 "> 
+            <div class="card border-0 shadow-sm rounded-3 bg-dark text-white">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Assessment Results</h5>
+                    <p class="card-text">View your assessment results and track your academic progress.</p>
+                    <a href="{% url 'student_results'  %}" class="btn btn-primary rounded-pill">View Results</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-6 ">
+            <div class="card border-0 shadow-sm rounded-3">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Contact Teaching Assistance</h5>
+                    <p class="card-text">Due to how prof have concine for his student he provide a feature in this system for them to be able to contact his T.A's when ever they have a problem</p>
+                    <a href="{% url 'TA'  %}" class="btn btn-primary rounded-pill">TA'S</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card border-0 shadow-sm rounded-3 bg-dark text-white">
+                <div class="card-body text-center">
+                    <h5 class="card-title">AI Assistants</h5>
+                    <p class="card-text">Chat with full functioning ai chatbot to make your research and find information easy and simple</p>
+                    <a href="{% url 'Chatbot'  %}" class="btn btn-primary rounded-pill">AI Assistance</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- publications -->
+<section class="publications-section py-5 container mt-5" data-aos="fade-up" data-aos-duration="1200">
+    <div class="container">
+        <div class="text-center mb-4">
+            <h2 class="section-title"><i class="fas fa-book"></i> Research & Publications</h2>
+            <p class="section-subtitle">Explore the latest publications by the Head of Department.</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <ul class="publication-list">
+                    {% for publication in publications %} 
+                    <li><i class="fas fa-globe"></i><br /><a href="{{publication.publication_link}}" target="_blank">Publication{{publication.publication_number}}</a></li>
+                    {%endfor%} 
+                </ul>
+            </div>
+        </div>
+    </div>
+</section> 
+
+
+<style>
+    .publications-section {
+        background: linear-gradient(to right, #004d99, #00aced);
+        color: #fff;
+        padding: 50px 0;
+        margin-bottom: 30px;
+    }
+
+    .section-title {
+        font-size: 2rem;
+        font-weight: bold;
+    }
+
+    .section-subtitle {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+    }
+
+    .publication-list {
+        list-style: none;
+        padding: 0;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 20px;
+    }
+
+    .publication-list li {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 15px;
+        border-radius: 8px;
+        transition: background 0.3s, transform 0.3s;
+        text-align: center;
+    }
+
+
+    .publication-list li i {
+        font-size: 1.5rem;
+        color: #f8f9fa;
+    }
+
+
+    .publication-list li a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s;
+    }
+
+
+    .publication-list li:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateX(5px);
+    }
+
+    .publication-list li a:hover {
+        color: #004d99;
+    }
+    
+</style>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "School",
+  "name": "Professor Appiahene",
+  "url": "https://yourdomain.com",
+  "description": "Professor Appiahene system where students of UENR IT department check results, report issue, and receive announcements, contact his teaching Assistance.",
+  "address": {
+    "@type": "00233",
+    "addressLocality": "Sunyani",
+    "addressCountry": "GH"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+2331234567890", 
+    "contactType": "Academic support" 
+  }, 
+  "logo": "https://yourdomain.com/static/hod.jpg"
+}
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var swiper = new Swiper(".mySwiper", {
+            effect: "fade",
+            loop: true,
+            speed: 2000,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+
+        }
+     
+    );
+    let Currentyear=document.getElementById("currentYear")
+    var Year= new Date()
+    Currentyear.innerText=Year.getFullYear()
+   
+    });
+</script>
+
+{% endblock %}

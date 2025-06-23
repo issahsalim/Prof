@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+ 
+{% block content %}  
+<div class="container mt-5">
+  <div class="row justify-content-center"> 
+    <div class="col-md-8">
+      <div class="card shadow-sm border-0 rounded">
+        <div class="card-header bg-primary text-white text-center py-3">
+          <h4 class="mb-0">Results for {{ request.user.get_full_name }}</h4>
+        </div> 
+        <div class="card-body"> 
+          <table class="table table-bordered table-striped">
+            <thead class="thead-light">
+              <tr> 
+                <th class="text-center">Index Number</th>
+                <th class="text-center">Quizzes</th>
+                <th class="text-center">Assignment</th>
+                <th class="text-center">Attendance</th>
+                <th class="text-center">Mid_Sem</th>
+                <th class="text-center">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr> 
+                <td class="text-center">{{ studentResult.index_Number }}</td>
+                <td class="text-center">{{ studentResult.Total_Quiz_Marks }}</td>
+                <td class="text-center">{{ studentResult.Total_Assignment_Mark }}</td>
+                <td class="text-center">{{ studentResult.Attendance_Mark }}</td>
+                <td class="text-center">{{ studentResult.Mid_Sem}}</td>
+                <td class="text-center">{{ studentResult.Total}}</td> 
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

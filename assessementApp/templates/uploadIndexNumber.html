@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5 mb-5">
+    <!-- Messages display -->
+    {% for message in messages %}
+    <div class="d-flex justify-content-center">
+        <div class="alert alert-danger alert-dismissible fade show col-md-4 text-center" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+            </button>
+        </div>
+    </div>
+    {% endfor %}
+
+    {% if request.user.is_superuser %}
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h3 class="card-title mb-0">
+                <i class="fas fa-id-card mr-2"></i>Upload Index Numbers
+            </h3>
+        </div>
+
+        <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-md-8 mx-auto">
+                    <div class="alert alert-info">
+                        <h5 class="alert-heading">
+                            <i class="fas fa-info-circle mr-2"></i>Instructions
+                        </h5>
+                        <hr>
+                        <p>Please upload a properly formatted file containing student index numbers. The file should be:
+                        </p>
+                        <ul>
+                            <li>In CSV or Excel format (.csv, .xlsx)</li>
+                            <li>Contain one index number per row</li>
+                            <li>Not contain any header rows</li>
+                        </ul>
+                        <!-- <p class="mb-0">Need a template? <a href="" class="alert-link">Download our sample file</a></p> -->
+                    </div>
+                </div>
+            </div>
+
+            <form action="" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                {% csrf_token %}
+
+                <div class="form-row justify-content-center">
+                    <div class="col-md-6 mb-3">
+                        <label for="{{ form.file.id_for_label }}" class="font-weight-bold">
+                            <i class="fas fa-file-upload mr-2"></i>Select File
+                        </label>
+                        <div class="custom-file">
+                            {{ form.file }}
+                            <label class="custom-file-label" for="{{ form.file.id_for_label }}">Choose file...</label>
+                            <div class="invalid-feedback">Please select a valid file.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row justify-content-center mt-4">
+                    <div class="col-md-6 text-center">
+                        <button type="submit" class="btn btn-primary btn-lg px-4">
+                            <i class="fas fa-cloud-upload-alt mr-2"></i>Upload Index Numbers
+                        </button>
+                        <button type="reset" class="btn btn-outline-secondary btn-lg ml-2">
+                            <i class="fas fa-undo mr-2"></i>Reset
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="card-footer text-muted text-center">
+            <!-- <small>Need help? Contact support at <a href="mailto:support@example.com">support@example.com</a></small> -->
+        </div>
+    </div>
+    {%else%}
+    <div class="container py-5">
+        <div class="access-denied animate-fade">
+            <i class="fa-solid fa-lock"></i>
+            <h2>Access Denied</h2>
+            <p class="lead">You don't have permission to access this page.</p>
+            <p class="text-muted">Please contact the administrator if you believe this is an error.</p>
+            <a href="{% url 'home' %}" class="btn btn-primary mt-3">
+                <i class="fa-solid fa-house"></i>Return to Home
+            </a>
+        </div>
+    </div>
+
+    {%endif%}
+</div>
+{% endblock %}

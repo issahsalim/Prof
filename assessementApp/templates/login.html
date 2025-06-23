@@ -1,0 +1,146 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+{% if messages %}
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        {% for message in messages %}
+        <div class="col-md-8"> 
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>{{ message }}</strong> 
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+ 
+
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="row w-100">
+        <div class="col-md-6 offset-md-3">
+            <div class="card border-0 shadow  form">
+                <div class="card-header text-center bg-dark text-light">
+                    <h4 class="mb-0">Login</h4>
+                </div>
+                <!-- <div class="error-message mb-2 mt-2">  
+                    {%if messages %}
+                    {% for message in messages %}
+                    <strong class="text-center" id="message">{{message}}</strong>
+                    {%endfor%}
+                    {%endif%}
+                </div> -->
+
+                <div class="card-body p-6">
+                   
+                    <form method="post" action="{% url 'login' %}">  
+                        {% csrf_token %}
+
+                        <div class="form-group mb-4">
+                            <input type="text" name="username" class="form-control" placeholder="index number" required>
+                        </div>
+
+                        <div class="form-group mb-4">
+                            <input type="password" name="password" id="password" placeholder="password"
+                                class="form-control" required>
+                        </div>
+                       
+                        <div class="form-group mb-1">
+                            <label for="checkbox" class="form-label"><input type="checkbox" id="checkbox"
+                                    style="margin-right:5px;">Show
+                                Password</label>
+                        </div>
+                        
+                        <div class="d-flex justify-content-center mb-3">
+                            <button type="submit" class="btn btn-dark btn-lg rounded-pill mt-4 px-5">Login</button>
+                        </div>   
+                        <div class="forgotPass_signup">     
+                            <a href="{% url 'password_reset' %}" class="text-decoration-none text-black">Forgot Password?</a> 
+                            <a href="{% url 'signup' %}" class="text-decoration-none text-black">Signup</a>
+                        </div> 
+                    </form> 
+                </div>   
+                <!-- <div class="card-footer text-center bg-light">
+                    <small class="text-muted">Need help? <a href="#" class="text-dark">Contact Support</a></small>
+                </div> -->
+            </div> 
+        </div>
+    </div>
+</div>
+
+
+<style>
+    @media (max-width:768px) {
+  
+
+    }
+.forgotPass_signup{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+    .alert {
+        white-space: nowrap;
+    }
+
+
+    .container {
+        /* max-width: 1000px; */
+    }
+
+
+    .card {
+        border-radius: 15px;
+        animation: fadeInUp 0.8s ease-in-out;
+        border: 2px solid #f8f9fa;
+    }
+
+    .card-header,
+    .card-footer {
+        border-radius: 15px;
+    }
+
+    .btn-dark {
+        transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn-dark:hover {
+        background-color: #343a40;
+        transform: translateY(-2px);
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .form-control-lg {
+        font-size: 1.2rem;
+        padding: 0.75rem 1.25rem;
+    }
+
+    .rounded-pill {
+        border-radius: 50rem;
+    }
+</style>
+
+<script>
+    ShowPassword = document.getElementById('password')
+    checkBox = document.getElementById('checkbox')
+    checkBox.addEventListener('change', () => {
+        ShowPassword.type = checkBox.checked ? "text" : "password"
+    })
+
+</script>
+
+{% endblock %}

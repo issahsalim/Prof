@@ -1,0 +1,330 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+{% if messages %}
+{% for message in messages %}
+<div class="d-flex justify-content-center m-5">
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <strong>{{ message }}</strong>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+
+<div class="container mt-5">
+    <!-- Hero Section -->
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold mb-3">Report Your Issue</h1>
+        <p class="lead text-muted">Quickly and easily notify us about your Issue</p>
+    </div>
+
+    <!-- How to Report Section -->
+    <div class="card mb-5 border-0 shadow-sm">
+        <div class="card-body p-4">
+            <h3 class="text-center mb-4">How to Report an Issue</h3>
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="d-flex flex-column align-items-center text-center p-3 rounded-3"
+                        style="background-color: #f8f9fa;">
+                        <div class="bg-primary bg-opacity-10 p-3 rounded-circle mb-3">
+                            <i class="bi bi-person-check fs-4 text-primary"></i>
+                        </div>
+                        <h5 class="mb-2">Automatic Details</h5>
+                        <p class="text-muted mb-0">Your index number, name and class is auto-filled for convenience</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="d-flex flex-column align-items-center text-center p-3 rounded-3"
+                        style="background-color: #f8f9fa;">
+                        <div class="bg-primary bg-opacity-10 p-3 rounded-circle mb-3">
+                            <i class="bi bi-chat-square-text fs-4 text-primary"></i>
+                        </div>
+                        <h5 class="mb-2">Clear Explanation</h5>
+                        <p class="text-muted mb-0">Provide a detailed reason for your issue</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="d-flex flex-column align-items-center text-center p-3 rounded-3"
+                        style="background-color: #f8f9fa;">
+                        <div class="bg-primary bg-opacity-10 p-3 rounded-circle mb-3">
+                            <i class="bi bi-file-earmark-medical fs-4 text-primary"></i>
+                        </div>
+                        <h5 class="mb-2">Supporting Documents</h5>
+                        <p class="text-muted mb-0">Upload any relevant documents if available</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="d-flex flex-column align-items-center text-center p-3 rounded-3"
+                        style="background-color: #f8f9fa;">
+                        <div class="bg-primary bg-opacity-10 p-3 rounded-circle mb-3">
+                            <i class="bi bi-check-circle fs-4 text-primary"></i>
+                        </div>
+                        <h5 class="mb-2">Accurate Information</h5>
+                        <p class="text-muted mb-0">Ensure all details are correct before submitting</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="card mb-5 border-0 shadow-sm">
+        <div class="card-body p-4">
+            <h3 class="text-center mb-4">Frequently Asked Questions</h3>
+            <div class="accordion" id="faqAccordion">
+                <div class="accordion-item border-0 mb-3 rounded-3 overflow-hidden">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button collapsed rounded-3" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                            <i class="bi bi-question-circle me-2 text-primary"></i>
+                            What if I don't have supporting documents?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body bg-light">
+                            If you don't have any supporting documents, simply explain your reason as
+                            clearly as
+                            possible in the form. <strong> Providing honest and detailed information is key</strong>.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0 mb-3 rounded-3 overflow-hidden">
+                    <h2 class="accordion-header" id="headingTwo">
+                        <button class="accordion-button collapsed rounded-3" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            <i class="bi bi-bell me-2 text-primary"></i>
+                            How will I know if my issue is submmited? 
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body bg-light">
+                            After submitting the form, you'll receive an on-screen confirmation and email message. We'll contact you if we
+                            need any additional information.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item border-0 rounded-3 overflow-hidden">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button collapsed rounded-3" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                            <i class="bi bi-calendar-range me-2 text-primary"></i>
+                            Can I report an issue for multiple days?
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+                        data-bs-parent="#faqAccordion">
+                        <div class="accordion-body bg-light">
+                            Yes
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Absence Form Section -->
+    <div class="card border-0 shadow-lg mb-5">
+        <div class="card-header bg-primary text-white py-3 rounded-top">
+            <h2 class="text-center mb-0">ISSUE FORM</h2>
+        </div> 
+        <div class="card-body p-4 p-md-5"> 
+            <p class="text-muted text-center mb-4">Please complete this form to report your issues. All fields are
+                required unless marked optional.</p>
+
+            <form id="absenceForm" method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                {% csrf_token %}
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            {{ absence_form.stu_indexNumber }}
+                            <label for="{{ absence_form.stu_indexNumber.id_for_label }}">Index Number</label>
+                            <div class="invalid-feedback">
+                                Please provide your index number.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            {{ absence_form.full_name }}
+                            <label for="{{ absence_form.full_name.id_for_label }}">Full Name</label>
+                            <div class="invalid-feedback">
+                                Please provide your full name.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            {{ absence_form.Class }}
+                            <label for="{{ absence_form.Class.id_for_label }}">Class</label>
+                            <div class="invalid-feedback">
+                                Please select your class.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="form-floating">
+                            {{ absence_form.reason }}
+                            <label for="{{ absence_form.reason.id_for_label }}">Reason for Absence</label>
+                            <div class="invalid-feedback">
+                                Please your issue is required.
+                            </div>
+                            <div class="form-text">Be as detailed as possible (max 200 characters)</div>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="mb-3">
+                            <label for="{{ absence_form.proveFile.id_for_label }}" class="form-label">
+                                Supporting Document (Optional)
+                                <span class="text-muted">- Medical note or other relevant file</span>
+                            </label>
+                            {{ absence_form.proveFile }}
+                           
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg px-4 py-2">
+                        <i class="bi bi-send me-2"></i> Submit Absence Report
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    :root {
+        --primary-color: #4e73df;
+        --primary-light: #f0f3ff;
+        --secondary-color: #858796;
+        --light-gray: #f8f9fa;
+    }
+
+    body {
+        background-color: #f5f7ff;
+    }
+
+    .card {
+        border-radius: 0.75rem;
+        border: none;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-control,
+    .form-select {
+        border-radius: 0.5rem;
+        border: 1px solid #d1d3e2;
+        padding: 0.75rem 1rem;
+        transition: all 0.3s;
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 0.25rem rgba(78, 115, 223, 0.25);
+    }
+
+    .form-floating>label {
+        padding: 1rem 1rem;
+        color: var(--secondary-color);
+    }
+
+    .form-floating>.form-control:focus~label,
+    .form-floating>.form-control:not(:placeholder-shown)~label {
+        transform: scale(0.85) translateY(-0.5rem) translateX(0.15rem);
+        color: var(--primary-color);
+    }
+
+    .btn-primary {
+        background-color: var(--primary-color);
+        border: none;
+        border-radius: 0.5rem;
+        padding: 0.6rem 1.5rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        transition: all 0.3s;
+    }
+
+    .btn-primary:hover {
+        background-color: #3a5ccc;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(78, 115, 223, 0.3);
+    }
+
+    .accordion-button {
+        font-weight: 500;
+        background-color: var(--light-gray);
+        border-radius: 0.5rem !important;
+    }
+
+    .accordion-button:not(.collapsed) {
+        color: var(--primary-color);
+        background-color: var(--primary-light);
+        box-shadow: none;
+    }
+
+    .accordion-button:focus {
+        box-shadow: none;
+        border-color: transparent;
+    }
+
+    textarea {
+        min-height: 120px;
+        resize: vertical;
+    }
+
+    .alert {
+        border-radius: 0.5rem;
+    }
+
+    /* Custom file input */
+    .form-control[type="file"] {
+        padding: 0.5rem;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .card-body {
+            padding: 1.5rem;
+        }
+    }
+</style>
+
+<script>
+     (function () {
+        'use strict';
+
+        // Fetch the form we want to apply validation to
+        var form = document.getElementById('absenceForm');
+
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+
+            form.classList.add('was-validated');
+        }, false);
+    })();
+</script>
+
+{% endblock %}

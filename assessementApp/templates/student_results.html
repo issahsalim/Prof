@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    @media (max-width:786px) {
+
+        .name {
+            margin-top: 20%
+        }
+
+        .downloadbtn {
+            margin-top: 50px;
+        }
+
+        .resulttable {
+            width: 100%;
+            overflow-x: scroll;
+        }
+
+    }
+
+    table {
+        border-collapse: collapse;
+        font-size: 18px;
+        text-align: left; 
+        background-color: aqua;
+    }
+
+    th,
+    td {
+        border: 1px solid black;
+        padding: 10px;
+        white-space: nowrap; 
+    }
+
+    .resultsection{
+        margin-top: 50px;
+        margin-bottom: 30px;
+    }
+    
+</style>
+<div class="resultsection mb-6">
+
+    <div class="text-center mb-6 mt-6 studentInfo">
+        <meta class="text-center name "><b class="fs-4">Index number:</b> {{request.user}}</meta><br />
+        <meta class="text-center name "><b class="fs-4">Name:</b> {{request.user.get_full_name}}</meta><br/>
+        <meta class="text-center name "><b class="fs-4">Level:</b> {{request.user.Class}}</meta>
+    </div><p></p>
+    <div class="resulttable container">
+        <table class="table">
+            <tr>
+
+
+                <th>Index Number</th>
+                <th>Quizzes</th>
+                <th>Assessment</th>
+                <th>Level</th>
+                <th>Semester</th>
+                <th>Total</th>
+            </tr>
+
+
+
+            {% for result in results %}
+            <tr>
+                <td>{{ result.index_number }}</td>
+                <td>{{ result.Quizzes }}</td>
+                <td>{{ result.Assignments}}</td>
+                <td>{{ result.Level }}</td>
+                <td>{{ result.Semester }}</td>
+                <td>{{ result.Total}}</td> 
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">No results found.</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="d-flex justify-content-center downloadbtn mb-6">
+        <a href="{% url 'download_result' %}" class="btn btn-primary ">
+            Download Result </a>
+    </div>
+</div>
+
+{%endblock%}

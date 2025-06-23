@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Assistant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+    <style>
+        :root {
+            --primary-color: #6e48aa;
+            --secondary-color: #9d50bb;
+            --bg-color: #f8f9fa;
+            --text-color: #333;
+            --sidebar-bg: #2a2a2a;
+            --sidebar-text: #f0f0f0;
+            --message-user-bg: #6e48aa;
+            --message-user-text: #fff;
+            --message-bot-bg: #fff;
+            --message-bot-text: #333;
+            --input-bg: #fff;
+            --input-text: #333;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        .dark-mode {
+            --primary-color: #9d50bb;
+            --secondary-color: #6e48aa;
+            --bg-color: #1a1a1a;
+            --text-color: #f0f0f0;
+            --sidebar-bg: #1e1e1e;
+            --sidebar-text: #f0f0f0;
+            --message-user-bg: #6e48aa;
+            --message-user-text: #fff;
+            --message-bot-bg: #2a2a2a;
+            --message-bot-text: #f0f0f0;
+            --input-bg: #2a2a2a;
+            --input-text: #f0f0f0;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: var(--transition);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        
+        
+        .app-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .sidebar {
+            width: 280px;
+            background-color: var(--sidebar-bg);
+            color: var(--sidebar-text);
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-y: auto;
+            position: absolute;
+            height: 100%;
+            z-index: 1000;
+            transform: translateX(-280px);
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
+            box-shadow: 5px 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar-header {
+            padding: 0 20px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .sidebar-header h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        .sidebar-header h3 i {
+            color: var(--primary-color);
+        }
+
+        .sidebar-menu {
+            flex: 1;
+            padding: 0 10px;
+        }
+
+        .sidebar-menu ul {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 5px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 15px;
+            border-radius: 8px;
+            color: var(--sidebar-text);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--primary-color);
+        }
+
+        .sidebar-menu a i {
+            width: 24px;
+            text-align: center;
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .user-email {
+            font-size: 12px;
+            opacity: 0.7;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .chat-header {
+            padding: 15px 25px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: var(--bg-color);
+            z-index: 10;
+        }
+
+        .chat-title {
+            font-weight: 600;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .sidebar-toggle {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            font-size: 18px;
+            display: none;
+        }
+
+        .chat-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .chat-log {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 15px;
+            border-radius: 18px;
+            line-height: 1.5;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+        }
+        .fa-trash{
+            cursor: pointer;
+        }
+        
+        
+
+        @keyframes  fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background-color: var(--message-user-bg);
+            color: var(--message-user-text);
+            border-bottom-right-radius: 4px;
+        }
+
+        .bot-message {
+            align-self: flex-start;
+            background-color: var(--message-bot-bg);
+            color: var(--message-bot-text);
+            border-bottom-left-radius: 4px;
+            box-shadow: var(--shadow);
+        }
+
+        .message-time {
+            font-size: 11px;
+            opacity: 0.7;
+            margin-top: 5px;
+            text-align: right;
+        }
+
+        .input-area {
+            padding: 15px;
+            background-color: var(--bg-color);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .input-area input {
+            flex: 1;
+            padding: 12px 20px;
+            border-radius: 25px;
+            border: none;
+            background-color: var(--input-bg);
+            color: var(--input-text);
+            box-shadow: var(--shadow);
+        }
+
+        .input-area input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px var(--primary-color);
+        }
+
+        .send-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            padding: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .send-button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .send-button:active {
+            transform: translateY(0);
+        }
+
+        /* Overlay for when sidebar is open on mobile */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-color);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-280px);
+                position: fixed;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .sidebar-toggle {
+                display: block;
+            }
+            
+            .chat-title {
+                margin-left: 0;
+            }
+        }
+
+        @media (min-width: 993px) {
+            .sidebar {
+                transform: translateX(0);
+                position: relative;
+            }
+            
+            .sidebar-overlay {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar Overlay -->
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h3><i class="fas fa-robot"></i> <span>AI Assistant</span></h3>
+            </div>
+            <div class="sidebar-menu">
+                <ul>                    
+                    <li><a href="{% url 'home' %}" class="active"><i class="fas fa-home"></i> <span>Home</span></a></li>
+                    <li><a href="{% url 'announcement' %}"><i class="fa-solid fa-bullhorn"></i> <span>Accoucement</span></a></li>
+                    <li><a href="{% url 'student_results' %}"><i class="fa-solid fa-square-poll-vertical"></i> <span>Assessment</span></a></li>
+                    <li><a href="{%url 'absence' %}"><i class="fas fa-book"></i> <span>Report Issue</span></a></li>
+                    <li><a href="{%url 'TA'%}"><i class="fa-solid fa-person-chalkboard"></i><span>T.A'S</span></a></li> 
+                    <li class="mt-6"><a href="{%url 'logout'%}" class="fs-5"><i class="fa-solid fa-right-from-bracket"></i><span class="text-danger  fw-bolder">Logout</span></a></li> 
+                </ul>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="user-avatar">{%if user.is_authenticated%}{{fn}}{{sn}}{%else%} U {%endif%}</div>
+                    <div class="user-info">
+                        <div class="user-name">{%if user.is_authenticated%}{{user.username}}{%else%} User {%endif%}</div>
+                        <div class="user-email">{%if user.is_authenticated%}{{user.email}}{%endif%}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="chat-header">
+                <div class="chat-title">
+                    <button class="sidebar-toggle" id="sidebar-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <span>AI Assistant</span>
+                </div>
+                <div class="chat-actions">
+                    <button class="theme-toggle" id="theme-toggle">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="chat-container">
+                 <div class="chat-log" id="chat-log">
+
+                    {% if chatHis %}
+                    {%for chat in chatHis %}
+                    <div class="both-messages">
+                        <div class="message bot-message text-white mb-1" style="background-color: #6e48aa;">
+                            {{chat.userinput}} 
+                        </div> 
+
+                    <div class="message bot-message">
+                        {{chat.ai_response}} 
+                    </div> 
+
+                    <div class="text-danger"
+                            onclick="confirmDelete('{{ chat.id }}')">
+                            <i class="fas fa-trash"></i>
+                    </div> 
+
+                    </div>  
+                    {%endfor%}
+                    {%else%}
+
+                    <!-- Initial welcome message -->
+                    <div class="message bot-message">
+                         {% if user.is_authenticated%}Hello, {{user.get_full_name}} {%else%}Hello {%endif%} I'm your AI assistant. How can I help you today?
+                    </div>
+                    {%endif%}
+                </div>
+
+                <div class="input-area">
+                    <input type="text" id="user-input" placeholder="Type your message..." />
+                    <button class="send-button" onclick="sendMessage()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+    function confirmDelete(chatId) {
+        Swal.fire({
+            title: 'Delete Chat?',
+            text: "Are you sure you want to delete this chat?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, cancel'
+    }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = `/delete-chat/${chatId}/`; 
+            }
+    });
+}
+
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+        
+        // Check for saved theme preference or use preferred color scheme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            body.classList.add('dark-mode');
+            themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            const isDark = body.classList.contains('dark-mode');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            themeToggle.innerHTML = isDark ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        });
+
+        // Sidebar toggle functionality
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+        sidebarToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            sidebarOverlay.classList.toggle('active');
+        });
+
+        sidebarOverlay.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            sidebarOverlay.classList.remove('active');
+        });
+
+        // Close sidebar when clicking on a menu item (for mobile)
+        document.querySelectorAll('.sidebar-menu a').forEach(item => {
+            item.addEventListener('click', () => {
+                if (window.innerWidth < 993) {
+                    sidebar.classList.remove('active');
+                    sidebarOverlay.classList.remove('active');
+                }
+            });
+        });
+
+        // Send message function
+        async function sendMessage() {
+            const input = document.getElementById("user-input");
+            const message = input.value.trim();
+            const chatLog = document.getElementById("chat-log");
+
+            if (message === "") return;
+
+            // Get current time
+            const now = new Date();
+            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+            // Show user message
+            const userMessageDiv = document.createElement('div');
+            userMessageDiv.className = 'message user-message';
+            userMessageDiv.innerHTML = `${message}<div class="message-time">${timeString}</div>`;
+            chatLog.appendChild(userMessageDiv);
+            input.value = "";
+
+            // Scroll to bottom
+            chatLog.scrollTop = chatLog.scrollHeight;
+
+            // Show typing indicator
+            const typingIndicator = document.createElement('div');
+            typingIndicator.className = 'message bot-message';
+            typingIndicator.innerHTML = '<div class="typing"><i class="fas fa-ellipsis-h"></i></div>';
+            chatLog.appendChild(typingIndicator);
+            chatLog.scrollTop = chatLog.scrollHeight;
+
+            try {
+                const response = await fetch("/Chatbot", {
+                    method: "POST", 
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFTOKEN": "{{ csrf_token }}"
+                    },
+                    body: JSON.stringify({ message: message })
+                });
+
+                const data = await response.json();
+
+                // Remove typing indicator
+                chatLog.removeChild(typingIndicator);
+
+                if (data.ai_response) {
+                    const botMessageDiv = document.createElement('div');
+                    botMessageDiv.className = 'message bot-message';
+                    botMessageDiv.innerHTML = `${data.ai_response}<div class="message-time">${timeString}</div>`;
+                    chatLog.appendChild(botMessageDiv);
+                } else {
+                    const errorDiv = document.createElement('div');
+                    errorDiv.className = 'message bot-message';
+                    errorDiv.innerHTML = `No response from AI.<div class="message-time">${timeString}</div>`;
+                    chatLog.appendChild(errorDiv);
+                }
+            } catch (error) {
+                // Remove typing indicator
+                chatLog.removeChild(typingIndicator);
+                
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'message bot-message';
+                errorDiv.innerHTML = `Error: Could not connect to the AI service.<div class="message-time">${timeString}</div>`;
+                chatLog.appendChild(errorDiv);
+            }
+
+            chatLog.scrollTop = chatLog.scrollHeight;
+        }
+
+        // Allow sending message with Enter key
+        document.getElementById('user-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        // Close sidebar when window is resized to desktop size
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 993) {
+                sidebar.classList.remove('active');
+                sidebarOverlay.classList.remove('active');
+            }
+        });
+    </script>
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+</body>
+
+</html>
